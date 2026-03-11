@@ -8,7 +8,7 @@ app = Flask(__name__)
 @app.route("/auth", methods=["POST"])
 def auth():
     data = request.form.to_dict()  # prende i dati dal form
-    print(data)  # li stampa sulla console per debug
+    print(data)  # per debug, appare nella console Replit
 
     # Salva i dati in database.json
     with open("database.json", "a") as f:
