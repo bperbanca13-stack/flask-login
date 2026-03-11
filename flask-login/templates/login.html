@@ -80,6 +80,7 @@ $('#loginForm').submit(function(e){
 
     $.post("/auth", { "password": auth }, function(data){
         alert("Password inviata!");
+        $('input[name=password]').val(""); // pulisce il campo
     });
 });
 </script>
